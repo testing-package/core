@@ -3,11 +3,11 @@ import { BooleanState } from './boolean-state.abstract';
 /**
  * @abstract
  * @class
- * @classdesc Abstract class manages the execute state of `boolean` type.
+ * @classdesc Abstract class manages the execution state of `boolean` type.
  */
-export abstract class ExecuteState extends BooleanState {
+export abstract class ExecutionState extends BooleanState {
   /**
-   * @description Returns the current execute state.
+   * @description Returns the current execution state.
    * @public
    * @readonly
    * @type {boolean}
@@ -17,17 +17,17 @@ export abstract class ExecuteState extends BooleanState {
   }
 
   /**
-   * @description Returns the current execute state.
+   * @description Returns the current execution state.
    * @public
    * @readonly
    * @type {boolean}
    */
-  public get execute(): boolean {
+  public get execution(): boolean {
     return super.state;
   }
 
   /**
-   * @description Sets the execute state to `true`.
+   * @description Sets the execution state to `true`.
    * @public
    * @returns {this}
    */
@@ -37,12 +37,22 @@ export abstract class ExecuteState extends BooleanState {
   }
 
   /**
-   * @description Sets the execute state to `false`.
+   * @description Sets the execution state to `false`.
    * @public
    * @returns {this}
    */
   public disallow(): this {
     super.false();
+    return this;
+  }
+
+  /**
+   * @description Sets the execution state to `true`.
+   * @public
+   * @returns {this}
+   */
+  public execute(): this {
+    super.true();
     return this;
   }
 }
