@@ -1,0 +1,39 @@
+{
+  "name": "@testing-package/core",
+  "version": "1.0.0",
+  "author": "wwwdev.io <dev@wwwdev.io>",
+  "description": "A unit testing wrapper to integrate custom tests.",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "peerDependencies": {
+    "@typescript-package/type": "^1.1.0"
+  },
+  "scripts": {
+    "prepublishOnly": "npm install rimraf && npm run pkg && npm run clean",
+    "pkg": "npm pkg delete module es2020 esm2020 fesm2020 fesm2015 typings exports dependencies",
+    "clean": "./node_modules/rimraf/dist/esm/bin.mjs ./esm2020 ./fesm2015 ./fesm2020 ./index.d.ts ./public-api.d.ts ./node_modules && npm pkg delete scripts",
+    "sass": "./node_modules/sass/sass.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/testing-package/core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/testing-package/core/issues"
+  },
+  "keywords": [
+    "@testing-package",
+    "@testing-package/core",
+    "testing"
+  ],
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://checkout.revolut.com/pay/048b10a3-0e10-42c8-a917-e3e9cb4c8e29"
+    }
+  ],
+  "sideEffects": false
+}
