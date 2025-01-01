@@ -1,8 +1,10 @@
+// Class.
+import { Boolean as Already, Boolean as Not } from '@typescript-package/state';
 /**
  * @class
  * @classdesc Manages expectation state.
  */
-export class ExpectState {
+export class ExpectMatcherState {
   /**
    * @description Returns the state of `already`.
    * @public
@@ -10,7 +12,7 @@ export class ExpectState {
    * @type {boolean}
    */
   public get already(): boolean {
-    return this.#already;
+    return this.#already.state;
   }
 
   /**
@@ -22,11 +24,11 @@ export class ExpectState {
   public get clear() {
     return {
       already: (): this => {
-        this.#already = false;
+        this.#already.false();
         return this;
       },
       not: (): this => {
-        this.#not = false;
+        this.#not.false();
         return this;
       },
     }
@@ -42,21 +44,21 @@ export class ExpectState {
     return {
       already: {
         true: (): this => {
-          this.#already = true;
+          this.#already.true();
           return this;
         },
         false: (): this => {
-          this.#already = false;
+          this.#already.false();
           return this;
         }
       },
       not: {
         true: (): this => {
-          this.#not = true;
+          this.#not.true();
           return this;
         },
         false: (): this => {
-          this.#not = false;
+          this.#not.false();
           return this;
         }
       }
@@ -70,20 +72,22 @@ export class ExpectState {
    * @type {boolean}
    */
   public get not(): boolean {
-    return this.#not;
+    return this.#not.state;
   }
 
   /**
    * @description
    * @type {boolean}
    */
-  #already = false;
+  // #already = false;
+  #already = new Already(false);
  
   /**
    * @description Privately stored state of `not`.
    * @type {boolean}
    */
-  #not = false;
+  // #not = false;
+  #not = new Not(false);
 
   /**
    * @description
@@ -91,8 +95,8 @@ export class ExpectState {
    * @returns {this}
    */
   public reset(): this {
-    this.#already = false;
-    this.#not = false;
+    this.#already.false();
+    this.#not.false();
     return this;
   }
 }
