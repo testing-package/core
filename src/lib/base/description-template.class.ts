@@ -1,3 +1,5 @@
+// Abstract.
+import { State } from '@typescript-package/state';
 /**
  * Creates an instance of `DescriptionTemplate`.
  * @class
@@ -8,23 +10,23 @@ export class DescriptionTemplate<
   Template extends {[index: string]: string} = {}
 > {
   /**
-   * @description Status of automatically joining specific template to the description.
-   * @public
-   * @readonly
-   * @type {('auto' | 'manual' | 'off')}
-   */
-  public get active(): 'auto' | 'manual' | 'off' {
-    return this.#active;
-  }
-
-  /**
    * @description
    * @public
    * @readonly
    * @type {Descriptions | Descriptions[]}
    */
-  public get get() {
+  public get descriptions() {
     return this.#descriptions;
+  }
+
+  /**
+   * @description Description template mode.
+   * @public
+   * @readonly
+   * @type {('auto' | 'manual' | 'off')}
+   */
+  public get mode(): 'auto' | 'manual' | 'off' {
+    return this.#mode.state;
   }
 
   /**
@@ -36,12 +38,6 @@ export class DescriptionTemplate<
   public get template(): Template {
     return this.#template;
   }
-
-  /**
-   * @description
-   * @type {('auto' | 'manual' | 'off')}
-   */
-  #active: 'auto' | 'manual' | 'off' = 'manual';
   
   /**
    * @description
@@ -50,23 +46,31 @@ export class DescriptionTemplate<
   #descriptions;
 
   /**
+   * @description Description template mode.
+   * @public
+   * @readonly
+   * @type {TemplateMode}
+   */
+  #mode;
+
+  /**
    * @private
    */
   #template: Template = {} as Template;
   
   /**
-   * Creates an instance of `DescriptionTemplate`.
+   * Creates an instance of child `class`.
    * @constructor
-   * @param {?('auto' | 'manual' | 'off')} [active]
+   * @param {?('auto' | 'manual' | 'off')} [mode='off']
    * @param {?(Descriptions | Descriptions[])} [descriptions]
    * @param {?typeof DescriptionTemplate.template} [template]
    */
   constructor(
-    active?: 'auto' | 'manual' | 'off',
+    mode: 'auto' | 'manual' | 'off' = 'off',
     descriptions?: Descriptions | Descriptions[],
     template?: Template
   ) {
-    typeof active === 'string' && (this.#active = active);
+    this.#mode = new class TemplateMode extends State<typeof mode> {}(mode).freeze();
     this.#descriptions = descriptions;
     typeof template === 'object' && (this.#template = template);
   }
@@ -74,17 +78,18 @@ export class DescriptionTemplate<
   /**
    * @description Replaces `DescriptionTemplate.template` in `description`.
    * @public
-   * @param {string} description - A `string` type value.
+   * @template {string} Description
+   * @param {(Descriptions | Description)} description - A `Description` type value.
    * @param {string} replacement
    * @param {keyof Template} replaceTemplateName
    * @returns {string} The returned value is a `string` type `description`.
    */
-  public replace(
-    description: string,
+  public replace<Description extends string>(
+    description: Descriptions | Description,
     replacement: string,
     replaceTemplateName: keyof Template,
   ): string {
-    return this.#active !== 'off'
+    return this.#mode.state !== 'off'
     ? this.join(description, replaceTemplateName).replace(
         this.template[replaceTemplateName],
         `${replacement}`
@@ -104,8 +109,8 @@ export class DescriptionTemplate<
     description: Description,
     templateName: keyof Template,
   ): string {
-    return this.#active === 'auto'
-      ? `${this.template[templateName]}. ${description}`
+    return this.#mode.state === 'auto'
+      ? `${this.template[templateName]}${description}`
       : description;
   }
 }
