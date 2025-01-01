@@ -1,12 +1,13 @@
 import {} from "jasmine";
 // Class.
 import { ExpectState } from "./expect-state.class";
-import { is } from '@angular-package/type';
 // Type.
 import { ExpectType } from '../../type';
 /**
- * @class
- * @classdesc Manages expectation.
+ * @description
+ * @export
+ * @class Expect
+ * @classdesc Manages expect.
  */
 export class Expect {
   /**
@@ -32,7 +33,7 @@ export class Expect {
   }
   
   /**
-   * @description Returns an instance of `TestingExpectState`.
+   * @description Returns an instance of child class.
    * @public
    * @readonly
    * @type {ExpectState}
@@ -68,7 +69,7 @@ export class Expect {
       ? expect(actual).withContext(expectationFailOutput)
       : expect(actual)
   ): jasmine.Matchers<ExpectType<T>> {
-    return is.true(this.#state.not) ? e.not : e;
+    return this.#state.not === true ? e.not : e;
   }
 
   /**
@@ -112,11 +113,11 @@ export class Expect {
       ? expectAsync(actual).withContext(expectationFailOutput)
       : expectAsync(actual)
   ): jasmine.AsyncMatchers<T, U> {
-    already && is.true(already) && this.already;
-    not && is.true(not) && this.not;
-    return is.true(this.#state.not)
-      ? is.true(this.#state.already) ? e.not.already : e.not
-      : is.true(this.#state.already) ? e.already : e;
+    typeof already === 'boolean' && already === true && this.already;
+    typeof not === 'boolean' && not === true && this.not;
+    return this.#state.not === true
+      ? this.#state.already === true ? e.not.already : e.not
+      : this.#state.already === true ? e.already : e;
   }
 
   /**
