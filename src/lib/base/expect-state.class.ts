@@ -1,10 +1,12 @@
 // Class.
 import { Boolean as Already, Boolean as Not } from '@typescript-package/state';
 /**
- * @class
- * @classdesc Manages expectation state.
+ * @description
+ * @export
+ * @class ExpectMatcherState
+ * @classdesc Manages `already` and `not` expect states of `boolean` type.
  */
-export class ExpectMatcherState {
+export class ExpectState {
   /**
    * @description Returns the state of `already`.
    * @public
@@ -76,21 +78,37 @@ export class ExpectMatcherState {
   }
 
   /**
-   * @description
+   * @description Privately stored state of `already`.
    * @type {boolean}
    */
-  // #already = false;
   #already = new Already(false);
  
   /**
    * @description Privately stored state of `not`.
    * @type {boolean}
    */
-  // #not = false;
   #not = new Not(false);
 
   /**
-   * @description
+   * @description Checks whether expect state is prepared to set `already`.
+   * @public
+   * @returns {boolean} Returns `already` state of `boolean` type.
+   */
+  public isAlready(): boolean {
+    return this.#already.isTrue();
+  }
+
+  /**
+   * @description Checks whether expect is prepared to being inverted.
+   * @public
+   * @returns {boolean} Returns `not` state of `boolean` type.
+   */
+  public isInverted(): boolean {
+    return this.#not.isTrue();
+  }
+
+  /**
+   * @description Resets states.
    * @public
    * @returns {this}
    */
