@@ -1,5 +1,5 @@
 // Class.
-import { ExecuteState } from './execute-state.abstract';
+import { ExecutionState } from './execution-state.abstract';
 /**
  * Initialize executable storage.
  * @exports
@@ -7,7 +7,7 @@ import { ExecuteState } from './execute-state.abstract';
  * @class
  * @classdesc Manages the `Set` executable tests storage of numbers.
  */
-export abstract class Executable extends ExecuteState {
+export abstract class Executable extends ExecutionState {
   /**
    * @description Returns the `SetIterator` of unique numbers allowed to execute.
    * @public
