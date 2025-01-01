@@ -1,21 +1,14 @@
 // Class.
-import { BooleanState } from './boolean-state.abstract';
+import { BooleanState } from '@typescript-package/state';
 /**
+ * @description
+ * @export
  * @abstract
- * @class
+ * @class ExecutionState
  * @classdesc Abstract class manages the execution state of `boolean` type.
+ * @extends {BooleanState}
  */
 export abstract class ExecutionState extends BooleanState {
-  /**
-   * @description Returns the current execution state.
-   * @public
-   * @readonly
-   * @type {boolean}
-   */
-  public get allowed(): boolean {
-    return super.state;
-  }
-
   /**
    * @description Returns the current execution state.
    * @public
@@ -43,16 +36,6 @@ export abstract class ExecutionState extends BooleanState {
    */
   public disallow(): this {
     super.false();
-    return this;
-  }
-
-  /**
-   * @description Sets the execution state to `true`.
-   * @public
-   * @returns {this}
-   */
-  public execute(): this {
-    super.true();
     return this;
   }
 }
