@@ -1,7 +1,10 @@
-// @angular-package/type.
-import { NumberBetween, StringOfLength } from '@angular-package/type';
+// @typescript-package/type.
+import { NumberBetween, StringOfLength } from '@typescript-package/type';
 /**
- * 
+ * @description
+ * @export
+ * @class Random
+ * @typedef {Random}
  */
 export class Random {
   public number = <Max extends number>(
