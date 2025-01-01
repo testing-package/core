@@ -1,14 +1,14 @@
 // Class.
 import { NumberState } from '@typescript-package/state';
 /**
- * @description Identification for testing purposes.
+ * @description Counter for testing purposes.
  * @export
- * @class NumberIdentification
+ * @class Counter
  * @extends {NumberState}
  */
-export class NumberIdentification extends NumberState {
+export class Counter extends NumberState {
   /**
-   * @description Current identification value.
+   * @description Current counter value.
    * @public
    * @readonly
    * @type {number}
@@ -18,7 +18,7 @@ export class NumberIdentification extends NumberState {
   }
 
   /**
-   * Creates an instance of `NumberIdentification`.
+   * Creates an instance of `Counter`.
    * @constructor
    */
   constructor() {
@@ -26,7 +26,7 @@ export class NumberIdentification extends NumberState {
   }
 
   /**
-   * @description Resets number identification to `0`.
+   * @description Resets counter to `0`.
    * @public
    * @returns {this} The returned value is an instance of a child class.
    */
