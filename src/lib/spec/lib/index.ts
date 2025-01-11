@@ -1,0 +1,1 @@
+export { Spec } from './spec.class';
