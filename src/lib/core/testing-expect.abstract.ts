@@ -1,14 +1,13 @@
 // Class.
-import { Expect } from "./base/expect.class";
+import { Expect } from "../base/expect.class";
 import { TextualExpectation } from "./textual-expectation.abstract";
 // Type.
-import { ExpectType } from "../type";
+import { ExpectType } from "../../type";
 /**
  * @description
  * @export
  * @abstract
  * @class TestingExpect Contains instance of the `Expect`.
- * @typedef {TestingExpect}
  */
 export abstract class TestingExpect {
   /**
@@ -100,8 +99,8 @@ export abstract class TestingExpect {
     not?: boolean,
     already?: boolean,
   ): jasmine.AsyncMatchers<T, U> {
-    already && this.already;
-    not && this.not;
+    typeof already === 'boolean' && already === true && this.already;
+    typeof not === 'boolean' && not === true && this.not;
     return this._expect.expectAsync(actual, expectationFailOutput, not, already);
   }
 
@@ -124,7 +123,7 @@ export abstract class TestingExpect {
    * @returns 
    */
   public invert(invert: boolean = false) {
-    (invert ? this.not : this);
+    (typeof invert === 'boolean' && invert === true ? this.not : this);
     return this;
   }
 

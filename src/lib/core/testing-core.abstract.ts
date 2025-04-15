@@ -1,9 +1,9 @@
 // Class.
-import { Expect } from './base/expect.class';
-import { TestingSpec } from './testing-spec.class';
-import { TestingSuite } from './testing-suite.class';
+import { Expect } from '../base/expect.class';
+import { TestingSpec } from '../testing-spec.class';
+import { TestingSuite } from '../testing-suite.class';
 // Interface.
-import { TestingOptions } from '../interface';
+import { TestingOptions } from '../../interface';
 /**
  * @description
  * @export

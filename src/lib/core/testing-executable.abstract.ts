@@ -1,5 +1,5 @@
 // Class.
-import { Counter, Executable } from './base';
+import { Counter, Executable } from '../base';
 /**
  * @description
  * @export
