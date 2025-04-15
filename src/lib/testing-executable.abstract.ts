@@ -5,7 +5,6 @@ import { Counter, Executable } from './base';
  * @export
  * @abstract
  * @classdesc Common class for `TestingSuite` and `TestingSpec` with `Counter`.
- * @typedef {TestingExecutable}
  * @extends {Executable}
  */
 export abstract class TestingExecutable extends Executable {
@@ -28,10 +27,10 @@ export abstract class TestingExecutable extends Executable {
   #counter;
 
   /**
-   * Creates an instance of `TestingExecutable`.
-   * @description Initializes the class with optional execute state, executable numbers, and counter configuration.
+   * Creates an instance of child class.
+   * @description Initializes the class with optional execute state, executable numbers.
    * @constructor
-   * @param {?boolean} [execute] - An optional parameter to set the initial execute state.
+   * @param {?boolean} [execute] - An optional parameter to set the initial execution state.
    * @param {?(number | number[])} [executable] - Unique `number` or an array of unique numbers for the executable storage.
    */
   constructor(
