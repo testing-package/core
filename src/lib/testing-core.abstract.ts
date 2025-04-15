@@ -5,24 +5,18 @@ import { TestingSuite } from './testing-suite.class';
 // Interface.
 import { TestingOptions } from '../interface';
 /**
+ * @description
+ * @export
  * @abstract
- * @class
+ * @class TestingCore
  * @classdesc Core object with describe and it instances.
+ * @template {string} [Descriptions=string]
+ * @template {string} [Expectations=string]
  */
 export abstract class TestingCore<
   Descriptions extends string = string,
   Expectations extends string = string,
 > {
-  /**
-   * @description
-   * @public
-   * @readonly
-   * @type {('auto' | 'manual' |  'off')}
-   */
-  public get number(): 'auto' | 'manual' |  'off' {
-    return this._number;
-  }
-
   /**
    * @description
    * @public
@@ -54,6 +48,16 @@ export abstract class TestingCore<
   }
 
   /**
+   * @description
+   * @public
+   * @readonly
+   * @type {('auto' | 'manual' |  'off')}
+   */
+  public get template(): 'auto' | 'manual' |  'off' {
+    return this._template;
+  }
+
+  /**
    * @description A privately stored instance of a `TestingSpec`.
    * @protected
    * @type {TestingSpec<Expectations>}
@@ -61,18 +65,18 @@ export abstract class TestingCore<
   protected _testingSpec: TestingSpec<Expectations>;
 
   /**
-   * @description Counter config.
-   * @protected
-   * @type
-   */
-  private _number;
-
-  /**
    * @description
    * @private
    * @type {*}
    */
   private _expect;
+
+  /**
+   * @description 
+   * @protected
+   * @type
+   */
+  private _template;
 
   /**
    * @description A privately stored instance of a `TestingSuite`.
@@ -84,16 +88,14 @@ export abstract class TestingCore<
   /**
    * Creates an instance of `TestingCore`.
    * @constructor
-   * @param {Execute} [execute=true]
-   * @param {?Textual<Descriptions, Expectations>} [textual]
-   * @param {?('auto' | 'manual' |  'off')} [number]
-   * @param {?TestingConfig<Descriptions, Expectations>} [testing]
+   * @param {(boolean | { suite?: boolean, spec?: boolean })} [execute=true]
+   * @param {TestingOptions<Descriptions, Expectations>} [param0={ executable, descriptions, expectations, template, testing }]
    */
   constructor(
     execute: boolean | { suite?: boolean, spec?: boolean } = true,
     {}: TestingOptions<Descriptions, Expectations> = {}
   ) {
-    const { executable, descriptions, expectations, number, testing } = {
+    const { executable, descriptions, expectations, template, testing } = {
       ...arguments[1] as ConstructorParameters<typeof TestingCore<Descriptions, Expectations>>[1]
     };
 
@@ -104,20 +106,20 @@ export abstract class TestingCore<
           typeof execute === 'boolean' ? execute : execute?.suite,
           executable?.suite,
           descriptions,
-          number
+          template
         ),
         spec: new TestingSpec<Expectations>(
           typeof execute === 'boolean' ? execute : execute?.spec,
           executable?.spec,
           expectations,
-          number
+          template
         ),
         expect: new Expect()
       },
       ...testing
     };
     this._expect = expect;
-    this._number = number || 'manual';
+    this._template = template || 'manual';
     this._testingSpec = spec;
     this._testingSuite = suite;
   }
@@ -140,7 +142,7 @@ export abstract class TestingCore<
   }
 
   /**
-   * @description
+   * @description Wrapper method for the `afterEach()` of jasmine.
    * @public
    * @param {jasmine.ImplementationCallback} action
    * @param {?number} [timeout]
@@ -234,7 +236,7 @@ export abstract class TestingCore<
 
   /**
    * @description Executes `it()` function of jasmine on provided state `true` from the `execute`.
-   * @param expectation "Textual description of what this spec is checking" with an optional its unique number when adding `[counter]`.
+   * @param expectation "Textual description of what this spec is checking" with an optional its unique number when adding `[index]`.
    * @param assertion "Function that contains the code of your test. If not provided the test will be pending."
    * @param execute A `boolean` type value to decide whether or not execute defined `it()` of jasmine function.
    * @returns The return value is an instance of a child class.
