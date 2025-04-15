@@ -1,15 +1,12 @@
 // Abstract.
 import { ObjectState } from "@typescript-package/state";
-import { Spec } from "./spec.class";
-import { Counter, DescriptionTemplate } from "./base";
-
+import { Spec } from "../spec/lib/spec.class";
+import { Counter, DescriptionTemplate } from ".";
 // Type.
 export type SuiteType = 'describe' | 'fdescribe' | 'xdescribe';
-
-
 export interface SuiteOptions {
   category?: string;
-  index? : 'auto' | 'manual' |  'off'
+  template? : 'auto' | 'manual' |  'off'
   log?: boolean;
   priority?: number,
   timeout?: number,
@@ -19,7 +16,7 @@ export interface SuiteInterface<Id extends number, Description extends string> {
   description: Description;
   specDefinitions: () => void;
   category?: string;
-  index? : 'auto' | 'manual' |  'off';
+  template? : 'auto' | 'manual' |  'off';
   priority?: number;
   type: SuiteType;
   timeout?: number;
@@ -104,7 +101,7 @@ export class Suite<Id extends number, Description extends string> extends Object
       timestamp: new Date(),
     });
     this.counter = new Counter();
-    this.descriptionTemplate = new DescriptionTemplate(super.state.index, description, {index: '[index]'});
+    this.descriptionTemplate = new DescriptionTemplate(super.state.template, description, {index: '[index]'});
     typeof execute === 'boolean' && execute === true && this.execute();
   }
 
@@ -135,7 +132,7 @@ export class Suite<Id extends number, Description extends string> extends Object
           ? super.state.specDefinitions
           : () => 
             Object.entries(super.state.specDefinitions)
-              .forEach(([description, spec]) => (this.counter.increment(), new Spec(this.counter.current, description, spec)))
+              .forEach(([description, spec]) => new Spec(this.counter.increment().current, description, spec).execute())
         );
         break;
     }    
